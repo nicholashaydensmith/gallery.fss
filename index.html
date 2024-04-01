@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FSS Gallery</title>
+    <style>
+#container {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+ul {
+  list-style: none;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gallery > li {
+  flex-basis: 350px; /* width: 350px; */
+}
+
+.gallery li img {
+  object-fit: cover;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+    </style>
+    <script src="/fss/fss.js"></script>
+    <script>
+extensions = [
+  ".apng",
+  ".avif",
+  ".gif",
+  ".jpg",
+  ".jpeg",
+  ".jfif",
+  ".pjpeg",
+  ".pjp",
+  ".png",
+  ".svg",
+  ".webp",
+];
+
+fss.query(data => {
+  console.log(data);
+  const dirlist = data["list"];
+  document.getElementById("header").innerHTML = dirlist.root;
+  const list = document.getElementById("list");
+  list.innerHTML = dirlist.paths.filter(p => extensions.some(e => p.endsWith(e))).map(p => `<li><a href="?download=${p}"><img src="?download=${p}"><pre>${p}</pre></a></li>`).join("");
+});
+    </script>
+</head>
+<body>
+<div id="container"><h1 id="header"></h1><ul id="list" class="gallery"></ul></div>
+</body>
+</html>
